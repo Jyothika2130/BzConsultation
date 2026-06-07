@@ -81,6 +81,7 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --stroke-color: black;
 }
 
 .dark {
@@ -115,6 +116,7 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --stroke-color: white;
 }
 
 @layer base {
@@ -127,24 +129,114 @@
 }
 
 
+@layer components {
+  .slide {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .project h1 {
+    @apply relative;
+  }
+
+  .project h1::after {
+    content: "";
+    @apply block absolute left-0 bottom-0 h-[1.5px] w-0 bg-black dark:bg-white transition-all duration-300;
+  }
+
+  .project:hover h1::after {
+
+    @apply w-full;
+
+  }
+  .work-process-kicker {
+    font-size: 14px;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: rgb(234, 234, 234);
+    margin: 0 0 7px 0;
+    padding: 0;
+    line-height: 1.2;
+    letter-spacing: 0.5px;
+    position: relative;
+    text-align: center;
+  }
+
+  .work-process-kicker::before {
+    content: "";
+    display: block;
+    width: 7px;
+    height: 7px;
+    background-color: #f5900d;
+    border-radius: 50%;
+    margin-bottom: 16px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .work-process-kicker--start {
+    text-align: left;
+  }
+
+  .work-process-kicker--start::before {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .work-process-one__item__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    vertical-align: middle;
+    letter-spacing: 0.5px;
+    font-size: 16px;
+    visibility: visible;
+    animation-name: fadeInUp;
+    animation-delay: 200ms;
+  }
+
+  @media (min-width: 768px) and (max-width: 991px) {
+    .work-process-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .work-process-grid .work-process-step:nth-child(3) {
+      grid-column: 1 / 2;
+      justify-self: stretch;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .work-process-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+  .work-process-grid .work-process-step {
+      grid-column: auto !important;
+      justify-self: stretch;
+    }
+  }
+}
+
+
 .consultant {
   position: relative;
   width: 100%;
 }
 
-
-
 .bg-img {
   background-image: url("/header-bg.jpg");
   position: absolute;
-  opacity: .40;
+  opacity: 0.4;
   inset: 0;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   z-index: 0;
-  
-
 }
 
 .overlay {
@@ -160,36 +252,33 @@
   z-index: 1;
 }
 
-
-p {
+/* p {
   font-size: 16px;
   letter-spacing: 0.5px;
   line-height: 2rem;
+} */
 
-}
-
-
-.intro h2{
+.intro h2 {
   font-size: 45px;
   font-weight: 800;
   letter-spacing: 2px;
 }
 
-.mobile-menu{
+.mobile-menu {
   display: flex;
-    justify-content: space-between;
-    line-height: 30px;
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 500;
-    height: 46px;
-    align-items: center;
-    transition: 500ms
+  justify-content: space-between;
+  line-height: 30px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  height: 46px;
+  align-items: center;
+  transition: 500ms;
 }
 
 /* global.css */
 Input {
-border: none;
+  border: none;
 }
 
 .bounce {
@@ -208,6 +297,37 @@ border: none;
   }
 }
 
+.p-lead {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+.carousal::-webkit-scrollbar {
+  display: none;
+}
+
+.group1 {
+  animation: move 20s infinite linear;
+}
+
+
+
+
+
+
+@keyframes move {
+  from {
+    translate: 0;
+  }
+  to {
+    translate: -100%;
+  }
+}
+
+
 
 
 @media (max-width: 767px) {
@@ -216,12 +336,10 @@ border: none;
     line-height: 40px;
   }
 
-  .intro h2{
+  .intro h2 {
     font-size: 30px;
     line-height: 40px;
   }
-  
-
 }
 .input {
   @apply w-full 
@@ -237,5 +355,122 @@ border: none;
 }
 
 .dark .input {
+  
   background-color: #101010; 
+}
+
+/* Keep Navbar and Footer theme static while page content switches themes */
+.theme-fixed-nav,
+.theme-fixed-footer {
+  background-color: #101010 !important;
+
+}
+/* 
+.theme-fixed-nav a,
+.theme-fixed-footer a,
+.theme-fixed-nav button,
+.theme-fixed-footer button,
+.theme-fixed-nav h1,
+.theme-fixed-nav h2,
+.theme-fixed-nav h3,
+.theme-fixed-nav h4,
+.theme-fixed-nav h5,
+.theme-fixed-nav p,
+.theme-fixed-footer h1,
+.theme-fixed-footer h2,
+.theme-fixed-footer h3,
+.theme-fixed-footer h4,
+.theme-fixed-footer h5,
+.theme-fixed-footer p {
+  color: #ffffff;
+} */
+.input {
+  @apply w-full px-4 py-3 rounded-md
+  
+  text-black dark:text-white
+  placeholder-gray-500 dark:placeholder-gray-400
+  focus:outline-none ;
+
+  background-color: #EAEAEA; 
+}
+
+.dark .input {
+  background-color: #101010; 
+}
+
+/* .btn-icon::before {
+  content: "\e919";
+  font-family: "icomoon" !important;
+  display: inline-block;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  text-transform: none;
+} */
+
+
+.award_title::after{
+  display:block;
+  width: 34px;
+  height: 1px;
+  content: ' ';
+  background-color: var(--primary);
+  margin: 12px 0 0;
+}
+
+
+.award-trophy::after{
+  position: absolute;
+  left: 0;
+  bottom:-1px;
+  height:35px;
+  width: 100%;
+  content:'';
+  background-color: #000000;
+  z-index:-1;
+  }
+
+
+
+  .cta-bg{
+    position:absolute;
+    left: 0;
+    right:0;
+    bottom:0;
+    top:0;
+    background-repeat: no-repeat;
+    background-size:cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+    opacity:0.2;
+  }
+
+
+.number {
+  counter-reset: my-counter;
+}
+
+.number .num {
+  display: block;
+  font-size: 80px;
+  font-weight: 800;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--stroke-color);
+  margin: auto;
+  transition: all 0.5s ease;
+  
+}
+
+.project:hover .num{
+  color:var(--primary);
+  -webkit-text-stroke: 1px var(--primary);
+
+}
+
+
+
+.number .num::before {
+  counter-increment: my-counter;
+  content: counter(my-counter, decimal-leading-zero);
 }

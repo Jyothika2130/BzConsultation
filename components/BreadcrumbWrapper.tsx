@@ -15,18 +15,51 @@ const BreadcrumbWrapper = () => {
 
   const segments = pathname.split("/").filter(Boolean);
 
+  const isBlogDetail =
+    segments.length === 2 && segments[0] === "blogs";
+
+  const isIndustriesDetail =
+    segments.length >= 2 && segments[0] === "industries";
+
+  const isNewsDetail =
+    segments.length >= 2 && segments[0] === "news";
+
   const items = [
     { label: "Home", href: "/" },
-    ...segments.map((_, index) => {
-      const path = "/" + segments.slice(0, index + 1).join("/");
 
-      const match = menuItems.find((item) => item.href === path);
+    ...segments
+      .map((segment, index) => {
+        if (
+          (isBlogDetail && index === 1) ||
+          (isIndustriesDetail && index > 0) ||
+          (isNewsDetail && index > 0)
+        ) {
+          return null;
+        }
 
-      return {
-        label: match?.label || formatLabel(segments[index]),
-        href: index === segments.length - 1 ? undefined : path,
-      };
-    }),
+        const path = "/" + segments.slice(0, index + 1).join("/");
+
+        const match = menuItems.find((item) => item.href === path);
+
+        let label = match?.label || formatLabel(segment);
+
+        if (segment === "industries") {
+          label = "Success Stories";
+        }
+
+        if (segment === "news") {
+          label = "News Details";
+        }
+
+        return {
+          label,
+          href: index === segments.length - 1 ? undefined : path,
+        };
+      })
+      .filter(
+        (item): item is { label: string; href: string | undefined } =>
+          Boolean(item)
+      ),
   ];
 
   return <BannerSection items={items} />;
